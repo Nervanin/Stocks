@@ -9,7 +9,7 @@ import Foundation
 
 struct Resources {
     static let accesToken = "pk_8d82f2ae5a394f8da6efc7b00b092c0a"
-    static let path = ""
+    static let path = "https://cloud.iexapis.com/stable/stock"
     
     struct HandleError {
         static let message = ""

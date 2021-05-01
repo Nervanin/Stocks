@@ -10,9 +10,7 @@ import UIKit
 class NetworkService {
     static let shared = NetworkService()
     
-    func loadStock(for symbol: String, completion: @escaping (_ companies: Companies, _ error: Error?) -> Void) {
-        
-        func loadCompanies(completion: @escaping (_ shared: Companies?, _ error: Error?) -> Void) {
+    func loadCompanies(completion: @escaping (_ shared: Companies?, _ error: Error?) -> Void) {
             let urlString = "\(Resources.path)/market/list/gainers/quote?token=\(Resources.accesToken)"
             guard let url = URL(string: urlString) else {
                 completion(nil, nil)
@@ -36,7 +34,6 @@ class NetworkService {
             }
             task.resume()
         }
-    }
     
     func getImageUrl(symbol: String, _ completion: @escaping (_ shared: UIImage) -> Void) {
         let urlString = "\(Resources.path)/\(symbol)/logo/quote?token=\(Resources.accesToken)"

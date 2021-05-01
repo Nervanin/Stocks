@@ -11,7 +11,10 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        NetworkService.shared.loadCompanies { [weak self] (companies, error) in
+            print(companies)
+            print(error)
+        }
     }
 
 
