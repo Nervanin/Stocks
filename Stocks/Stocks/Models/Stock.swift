@@ -5,9 +5,9 @@
 //  Created by Konstantin on 01.05.2021.
 //
 
-import Foundation
+import UIKit
 
-struct Company: Codable {
+struct Stock: Codable {
     let symbol, companyName: String
     let latestPrice: Double
     let change: Double
@@ -24,7 +24,7 @@ struct Company: Codable {
     }
 }
 
-typealias Companies = [Company]
+typealias Stocks = [Stock]
 
 class JSONNull: Codable, Hashable {
 

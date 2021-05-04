@@ -10,7 +10,7 @@ import UIKit
 class NetworkService {
     static let shared = NetworkService()
     
-    func loadCompanies(completion: @escaping (_ shared: Companies?, _ error: Error?) -> Void) {
+    func loadCompanies(completion: @escaping (_ stock: Stocks?, _ error: Error?) -> Void) {
             let urlString = "\(Resources.path)/market/list/gainers/quote?token=\(Resources.accesToken)"
             guard let url = URL(string: urlString) else {
                 completion(nil, nil)
@@ -18,30 +18,28 @@ class NetworkService {
             }
             let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 guard let data = data, error == nil, (response as? HTTPURLResponse)?.statusCode == 200 else {
-                    print(Resources.HandleError.message)
+                    Log.n(Resources.HandleError.message)
                     completion(nil, error)
                     return
                 }
                 do{
-                    print(data)
-                    let params = try JSONDecoder().decode(Companies.self, from: data)
-                    completion(params, nil)
+                    let stocks = try JSONDecoder().decode(Stocks.self, from: data)
+                    completion(stocks, nil)
                 }
                 catch {
-                    print(error.localizedDescription)
+                    Log.n(error.localizedDescription)
                     completion(nil, error)
                 }
             }
             task.resume()
         }
     
-    func getImageUrl(symbol: String, _ completion: @escaping (_ shared: UIImage) -> Void) {
+    func getImageUrl(symbol: String, _ completion: @escaping (_ image: UIImage) -> Void) {
         let urlString = "\(Resources.path)/\(symbol)/logo/quote?token=\(Resources.accesToken)"
         guard let url = URL(string: urlString) else {
             return
         }
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            // нет смысла вызывать алерт на загрузку картинки, на работу приложения не влияет. Достаточно залогировать.
             guard let data = data, error == nil, (response as? HTTPURLResponse)?.statusCode == 200 else {
                 print(Resources.HandleError.message)
                 return
@@ -53,18 +51,17 @@ class NetworkService {
                 }
             }
             catch {
-                print(error.localizedDescription)
+                Log.n(error.localizedDescription)
             }
         }
         task.resume()
     }
     
-    func loadImage(url: String, _ completion: @escaping (_ shared: UIImage) -> Void) {
+    private func loadImage(url: String, _ completion: @escaping (_ image: UIImage) -> Void) {
         guard let url = URL(string: url) else {
             return
         }
         let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            // нет смысла вызывать алерт на загрузку картинки, на работу приложения не влияет.
             guard let data = data, error == nil, (response as? HTTPURLResponse)?.statusCode == 200 else {
                 print(Resources.HandleError.message)
                 return
